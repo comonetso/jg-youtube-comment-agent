@@ -1,0 +1,22 @@
+{
+  "profiles": [
+    { "id": "youtube1", "name": "유튜브1", "userDataDir": "%LOCALAPPDATA%\\jg-youtube-agent\\profiles\\youtube1" }
+  ],
+  "collector": { "id": "collector", "name": "영상 읽기 전용(로그인 없음)", "userDataDir": "%LOCALAPPDATA%\\jg-youtube-agent\\profiles\\_collector", "mode": "offscreen", "hideAutomationFlag": true },
+  "channels": [
+    { "id": "UCxlc0Ky0aWoD8uI09ad44Tg", "name": "외롭여" },
+    { "id": "UC-ee_ziASM251TMXe3P3VZA", "name": "리즈시절 LizTV" },
+    { "id": "UC09L3JxGVcn7SKLa-pjTEmw", "name": "러브커넥트 유지연" },
+    { "id": "UCVdtDW-HF4KluixGaBAcI4w", "name": "연애데이터 노노" },
+    { "id": "UCkGl2jieOVhGiHPdXF77Yyw", "name": "심리조각" }
+  ],
+  "testVideos": [
+    { "videoId": "9YSPpp0BhXc", "title": "석 달째 썸, 갑자기 연락이 줄었어요 | 연애 고민", "channelId": "UCz2V6YkVttXELpw3XX1mAWw", "channelName": "블루밍", "visibility": "일부 공개" },
+    { "videoId": "wzZc5qiIrCs", "title": "헤어진 지 반년, 전 애인한테 '잘 지내?' 문자가 왔어요 | 연애 고민", "channelId": "UCz2V6YkVttXELpw3XX1mAWw", "channelName": "블루밍", "visibility": "일부 공개" },
+    { "videoId": "RtPjd1HvvKU", "title": "1년 짝사랑, 고백하면 친구로도 못 지낼까 봐 무서워요 | 연애 고민", "channelId": "UCz2V6YkVttXELpw3XX1mAWw", "channelName": "블루밍", "visibility": "일부 공개" }
+  ],
+  "comment": { "minChars": 40, "maxChars": 120, "brand": "운명원", "adLabel": false },
+  "limits": { "dailyMaxComments": 10 },
+  "typing": { "delayMs": 90 },
+  "ai": { "provider": "auto" }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "jg-youtube-comment-agent",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "유튜브 댓글 에이전트 대시보드 — 영상 불러오기 · AI 초안 · 크롬 전용 프로필로 직접 타이핑 게시",
+  "scripts": {
+    "start": "node src/server.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "playwright-core": "^1.64.1"
+  }
+}

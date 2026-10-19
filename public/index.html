@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>유튜브 댓글 에이전트</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>유튜브 댓글 에이전트</h1>
+      <p class="sub">지정 채널 영상에 영상 내용에 맞는 댓글을 달아, 읽는 사람이 ‘운명원’ 연애 사주를 보고 싶게 만듭니다. <b>① → ② → ③</b> 순서로 쓰세요.</p>
+    </div>
+    <div class="today-box" title="PC 날짜 기준 · 연습은 세지 않습니다">
+      <span class="today-label">오늘 게시</span>
+      <span class="today-num"><b id="todayCount">0</b> / <span id="todayMax">10</span></span>
+    </div>
+  </header>
+
+  <div id="moduleNotice" class="notice" hidden></div>
+
+  <main class="steps">
+    <!-- ① -->
+    <section class="panel" id="panel1" aria-labelledby="h1-step">
+      <h2 id="h1-step"><span class="num">1</span>영상 불러오기</h2>
+      <p class="hint">버튼을 누르면 댓글을 달 수 있는 채널 5곳의 최신 영상이 나옵니다.</p>
+      <div class="row">
+        <button id="btnLoad" class="btn primary" type="button">영상 불러오기</button>
+        <select id="channelFilter" class="select small" hidden aria-label="채널 고르기">
+          <option value="">모든 채널</option>
+        </select>
+      </div>
+      <div id="loadStatus" class="status" aria-live="polite"></div>
+      <div id="videoList" class="video-list">
+        <p class="empty">아직 불러온 영상이 없습니다.</p>
+      </div>
+    </section>
+
+    <!-- ② -->
+    <section class="panel" id="panel2" aria-labelledby="h2-step">
+      <h2 id="h2-step"><span class="num">2</span>영상 고르기</h2>
+      <p class="hint">① 의 목록에서 영상을 누르거나, 유튜브 링크를 붙여넣으세요. AI 가 영상 속 고민을 한 줄로 정리하고 댓글 초안을 씁니다.</p>
+      <form id="linkForm" class="row link-row" autocomplete="off">
+        <input id="linkInput" class="input" type="text" placeholder="유튜브 링크 붙여넣기 (예: https://youtu.be/…)" aria-label="유튜브 링크">
+        <button class="btn" type="submit">이 링크로</button>
+      </form>
+      <div id="linkError" class="msg error" hidden></div>
+
+      <p id="selectedEmpty" class="empty">아직 고른 영상이 없습니다.</p>
+      <div id="selectedBox" hidden>
+        <div id="selectedCard" class="selected-card"></div>
+        <div id="draftStatus" class="status" aria-live="polite"></div>
+        <div id="draftError" class="msg error" hidden></div>
+
+        <div id="draftBox" hidden>
+          <div class="field">
+            <div class="field-label">영상 속 고민 한 줄</div>
+            <p id="worry" class="worry"></p>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="commentText">댓글 초안 <span class="muted">— 직접 고쳐도 됩니다</span></label>
+            <textarea id="commentText" class="textarea" rows="5"></textarea>
+            <div class="row between">
+              <span id="charCount" class="char-count"></span>
+              <button id="btnRegen" class="btn small" type="button">다시 만들기</button>
+            </div>
+            <div id="textWarn" class="msg warn" hidden></div>
+          </div>
+
+          <div class="field">
+            <div class="field-label">근거 <span class="muted">— 댓글이 짚은 영상 속 말·장면</span></div>
+            <ul id="evidenceList" class="evidence"></ul>
+            <p id="sourceNote" class="muted small"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ③ -->
+    <section class="panel" id="panel3" aria-labelledby="h3-step">
+      <h2 id="h3-step"><span class="num">3</span>댓글 달기</h2>
+      <p class="hint">프로필을 고르고 <b>[댓글 달기]</b>를 누르면 브라우저 창이 열려 한 글자씩 입력하고 게시한 뒤, 내 댓글이 보이는지 확인합니다. <b>[연습]</b>은 입력까지만 하고 게시하지 않습니다.</p>
+
+      <div class="field">
+        <label class="field-label" for="profileSelect">프로필</label>
+        <select id="profileSelect" class="select"></select>
+      </div>
+
+      <div id="postBlock" class="msg info">② 에서 영상을 먼저 고르세요.</div>
+
+      <div class="row buttons">
+        <button id="btnPost" class="btn primary big" type="button" disabled>댓글 달기</button>
+        <button id="btnPractice" class="btn big" type="button" disabled>연습 (게시 안 함)</button>
+      </div>
+      <p class="muted small">한 영상에는 댓글 1개만 · 하루 최대 <span id="limitText">10</span>개 · 지정 채널 영상만</p>
+
+      <div id="progressBox" hidden>
+        <div class="field-label" id="progressTitle">진행 상태</div>
+        <ol id="progress" class="progress"></ol>
+      </div>
+      <div id="postResult" class="msg" hidden></div>
+    </section>
+  </main>
+
+  <section class="panel log-panel" aria-labelledby="h-log">
+    <div class="row between">
+      <h2 id="h-log">게시 기록</h2>
+      <span class="muted">오늘 게시 <b id="todayCount2">0</b> / <span id="todayMax2">10</span></span>
+    </div>
+    <p class="hint">어느 영상에 · 어느 프로필로 · 무슨 댓글을 · 어떤 결과였는지 시간순으로 남깁니다(최근 것이 위). 결과불명은 실제로 달렸을 수 있어 같은 영상에 다시 달지 않습니다.</p>
+    <div class="table-wrap">
+      <table id="logTable" class="log-table">
+        <thead>
+          <tr><th>시각</th><th>결과</th><th>영상</th><th>채널</th><th>프로필</th><th>댓글</th><th>이유</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p id="logEmpty" class="empty">아직 기록이 없습니다.</p>
+  </section>
+
+  <script src="/app.js" type="module"></script>
+</body>
+</html>
